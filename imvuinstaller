@@ -1,9 +1,8 @@
-# imvu install script by sexymacman aka rcg4u
-# copyright @ 2012 sexymacman http://sexymcman.wordpress.com
+#!/bin/bash
+-# imvu install script by sexymacman aka rcg4u
+-# copyright @ 2012 sexymacman http://sexymcman.wordpress.com
 
-imvuinstaller () 
-{ 
-    imvuinstalldir="$HOME/imvuinstall";
+   imvuinstalldir="$HOME/imvuinstall";
     clear;
     ip=$(/sbin/ifconfig en1 | grep inet | awk '{print $2}' | tail -1);
     hn=$(uname -n);
@@ -30,16 +29,24 @@ imvuinstaller ()
     { 
         if [ ! -f $imvuinstalldir/IMVU-$version.dmg ]; then
             echo "file doesnt exist downloading";
-            echo "downloading Mac version";
-            curl -O $macimvudownload;
+        fi;
+        if [ -f $imvuinstalldir/IMVU-$version.dmg ]; then
+            echo "continue downloading Mac version";
+            curl -C - -o IMVU-$version.dmg $macimvudownload;
         else
-            echo "IMVU-$version exists continue installing";
+            echo "downloading mac version";
+            curl -O $macimvudownload;
+        fi;
+        if [ -f $imvuinstalldir/InstallIMVU_$version.exe ]; then
+            echo "Continue downloading windows $version";
+            curl -C - -o $imvuinstalldir/InstallIMVU_$version.exe $winimvudownload;
+        else
+            echo "downloading windows version";
+            curl -O $winimvudownload;
         fi
     };
     download;
-    rmset off;
     rm -rvf /Applications/IMVU.app;
-    rmset on;
     echo "removed existing install";
     echo "installing version $version into folder $installdir";
     echo "removed current IMVU install";
@@ -56,13 +63,10 @@ imvuinstaller ()
     rsync -avzrtW --del --progress /Volumes/IMVU/IMVU.app $installdir;
     echo "IMVU $version has now been installed unmounting the drive";
     diskutil unmount "/Volumes/IMVU";
+echo "removing downloading imvu client files"
+    rm -v $imvuinstalldir/InstallIMVU_$version.exe 
+    rm -v $imvuinstalldir/IMVU-$version.dmg
+echo "removed $version files"      
     cd ~;
     echo "moved back to $PWD";
-    echo "IMVUClient will now be closed and restarted";
-    killall IMVUClient;
-    open -a imvu;
-    function fileexist () 
-    { 
-        echo "files exist, ending script"
-    }
-}
+

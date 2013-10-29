@@ -2,71 +2,69 @@
 -# imvu install script by sexymacman aka rcg4u
 -# copyright @ 2012 sexymacman http://sexymcman.wordpress.com
 
-   imvuinstalldir="$HOME/imvuinstall";
-    clear;
-    ip=$(/sbin/ifconfig en1 | grep inet | awk '{print $2}' | tail -1);
-    hn=$(uname -n);
-    version=$1;
-    installdir=$2;
-    echo "sexymacman's IMVU Update script";
-    echo "Welcome to SexyMacMan's Mac client installer, we are going to install $latestversion, if you already have this version ctrl + c now";
-    echo "we are on $hn with the ipaddress $ip if this is the wrong machine hit ctrl + c now otherwise push enter";
-    read -p "is this the right machine";
-    if [ "$REPLY" == "n" ]; then
-        exit;
-    fi;
-    if [ ! -d $HOME/imvuinstall ]; then
-        mkdir -p $HOME/imvuinstall;
-        echo "changing to $HOME/imvuinstall";
-    else
-        echo "directory $HOME/imvuinstall exists";
-        echo "changing to $HOME/imvuinstall";
-        cd $HOME/imvuinstall;
-    fi;
-    macimvudownload="http://static-akm.imvu.com/imvufiles/installers/IMVU-$version.dmg";
-#    winimvudownload="http://static-akm.imvu.com/imvufiles/installers/InstallIMVU_$version.exe";
-    function download () 
-    { 
-        if [ ! -f $imvuinstalldir/IMVU-$version.dmg ]; then
-            echo "file doesnt exist downloading";
-        fi;
-        if [ -f $imvuinstalldir/IMVU-$version.dmg ]; then
-            echo "continue downloading Mac version";
-            curl -C - -o IMVU-$version.dmg $macimvudownload;
-        else
-            echo "downloading mac version";
-            curl -O $macimvudownload;
-        fi;
- #       if [ -f $imvuinstalldir/InstallIMVU_$version.exe ]; then
- #           echo "Continue downloading windows $version";
- #           curl -C - -o $imvuinstalldir/InstallIMVU_$version.exe $winimvudownload;
- #       else
- #           echo "downloading windows version";
- #           curl -O $winimvudownload;
- #       fi
-    };
-    download;
-    rm -rvf /Applications/IMVU.app;
-    echo "removed existing install";
-    echo "installing version $version into folder $installdir";
-    echo "removed current IMVU install";
-    if [ -d /Volumes/IMVU ]; then
-        echo "volume exists unmounting";
-        diskutil unmount /Volumes/IMVU;
-        hdiutil mount IMVU-$version.dmg;
-    else
-        echo "not mounted";
-        hdiutil mount IMVU-$version.dmg;
-    fi;
-    echo "clean install of IMVU - copying IMVU $version to $installdir";
-    source ~/.profile;
-    rsync -avzrtW --del --progress /Volumes/IMVU/IMVU.app $installdir;
-    echo "IMVU $version has now been installed unmounting the drive";
-    diskutil unmount "/Volumes/IMVU";
+#variables go here#####################################
+imvuinstalldir="$HOME/imvuinstall";
+clear;
+ip=$(/sbin/ifconfig en1 | grep inet | awk '{print $2}' | tail -1);
+hn=$(uname -n);
+version=$1;
+installdir=$2;
+##################################################
+
+echo "sexymacman's IMVU Update script";
+echo "Welcome to SexyMacMan's Mac client installer, we are going to install $version, if you already have this version ctrl + c now";
+echo "we are on $hn with the ipaddress $ip if this is the wrong machine hit ctrl + c now otherwise push enter";
+	read -p "is this the right machine";
+  		if [ "$REPLY" == "n" ]; then
+exit;
+fi;
+	if [ ! -d $HOME/imvuinstall ]; then
+		mkdir -p $HOME/imvuinstall;
+		echo "changing to $HOME/imvuinstall";
+else
+		echo "directory $HOME/imvuinstall exists";
+		echo "changing to $HOME/imvuinstall";
+		cd $HOME/imvuinstall;
+fi;
+
+macimvudownload="http://static-akm.imvu.com/imvufiles/installers/IMVU-$version.dmg";
+
+function download () { 
+	if [ ! -f $imvuinstalldir/IMVU-$version.dmg ]; then
+		echo "file doesnt exist downloading";
+fi;
+	if [ -f $imvuinstalldir/IMVU-$version.dmg ]; then
+		echo "continue downloading Mac version";
+		curl -C - -o IMVU-$version.dmg $macimvudownload;
+else
+		echo "downloading mac version";
+		curl -O $macimvudownload;
+fi;
+};
+ 
+download;
+rm -rvf /Applications/IMVU.app;
+
+echo "removed existing install";
+echo "installing version $version into folder $installdir";
+echo "removed current IMVU install";
+
+	if [ -d /Volumes/IMVU ]; then
+		echo "volume exists unmounting";
+		diskutil unmount /Volumes/IMVU;
+		hdiutil mount IMVU-$version.dmg;
+else
+		echo "not mounted";
+		hdiutil mount IMVU-$version.dmg;
+fi;
+echo "clean install of IMVU - copying IMVU $version to $installdir";
+	rsync -avzrtW --del --progress /Volumes/IMVU/IMVU.app $installdir;
+echo "IMVU $version has now been installed unmounting the drive";
+	diskutil unmount "/Volumes/IMVU";
 echo "removing downloading imvu client files"
-    rm -v $imvuinstalldir/InstallIMVU_$version.exe 
-    rm -v $imvuinstalldir/IMVU-$version.dmg
+	rm -v $imvuinstalldir/InstallIMVU_$version.exe 
+	rm -v $imvuinstalldir/IMVU-$version.dmg
 echo "removed $version files"      
-    cd ~;
-    echo "moved back to $PWD";
+	cd ~;
+echo "moved back to $PWD";
 

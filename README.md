@@ -6,6 +6,7 @@ wipeimvucache - imvu changes the cache so much and it bogs down my client, they 
 checkimvu example below, its not much but it works as intended
 
 
+```
                         SexymacMan IMVU Updates Page
            IMVU Client Versions as of Wed Jul 23 11:01:18 PDT 2014
 
@@ -69,3 +70,4 @@ http://static-akm.imvu.com/imvufiles/installers/InstallIMVU_504.0_st_c.exe
 checking changes for updates
 
 Latest Version is 504.8 
+```

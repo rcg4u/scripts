@@ -1,7 +1,13 @@
 scripts I have made to make my time on imvu easier and more fun, -rolls eyes-
 
 imvuinstaller - My command line imvu client upgrader and downgrader
+
+
 wipeimvucache - imvu changes the cache so much and it bogs down my client, they made folders from 00 to ff this is a quick script to wipe that damn cache
+
+
+checkimvu - script i made to check for latest version of 
+imvu client.
 
 checkimvu example below, its not much but it works as intended
 

@@ -1,13 +1,11 @@
-wipeimvucache () 
-{ 
-    source ~/.profile;
-    imvudir="~/Library/Application\ Support/IMVU/";
-    killall IMVUClient;
-    cd ~/Library/Application\ Support/IMVU/HttpCache/;
-    echo "removing imvu cache files";
-    echo "IMVU will crash after cache files removed, this is intended";
-    sleep 2;
-    if [ "$1" == "v" ]; then
+ source ~/.profile;
+ killall IMVUClient;
+ cd ~/Library/Application\ Support/IMVU/HttpCache/;
+ echo "removing imvu cache files";
+ echo "IMVU will crash after cache files removed, this is intended";
+ sleep 2;
+    
+if [ "$1" == "v" ]; then
         rm -rvf ~/Library/Application\ Support/IMVU/HttpCache/*;
         echo "removing other imvu files";
         cd ~/Library/Application\ Support/IMVU/;
@@ -17,7 +15,8 @@ wipeimvucache ()
         rm -rvf localstorage.pickle;
         rm -rvf productAuth.pickle;
         rm -rvf productInfoCache.db;
-    else
+    
+else
         if [ "$1" != "v" ]; then
             echo "we are doing this quiet like a ninja wooo";
             rm -rf ~/Library/Application\ Support/IMVU/HttpCache/*;
@@ -29,8 +28,11 @@ wipeimvucache ()
             rm -rvf localstorage.pickle;
             rm -rvf productAuth.pickle;
             rm -rvf productInfoCache.db;
-        fi;
-    fi;
-    cd ~;
-    echo "IMVUCLient Cache cleaned, restarting"
-}
+        
+fi;
+    
+fi;
+    
+cd ~;
+echo "IMVUCLient Cache cleaned, restarting"
+

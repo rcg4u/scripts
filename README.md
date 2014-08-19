@@ -1,4 +1,7 @@
-scripts I have made to make my time on imvu easier and more fun, -rolls eyes-
+scripts I have made to automate certain processes easier.
+
+
+in the IMVU Folder
 
 imvuinstaller - My command line imvu client upgrader and downgrader
 

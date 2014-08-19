@@ -31,4 +31,3 @@ else
     fi;
     cd ~;
     echo "IMVUCLient Cache cleaned, restarting"
-}

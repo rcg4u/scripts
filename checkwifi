@@ -1,0 +1,40 @@
+checkwifi () 
+{ 
+    echo "turning wifi off";
+    sleep 1;
+    networksetup -setairportpower en1 off;
+    sleep 1;
+    echo "turn wifi back on";
+    sleep 1;
+    networksetup -setairportpower en1 on;
+    echo "waiting to set the network back up";
+    sleep 5;
+    for countdown in 5 4 3 2 1;
+    do
+        echo $countdown;
+        sleep 1;
+    done;
+    echo "network setup initiated";
+    networksetup -setairportnetwork en1 $1 $2;
+    sleep 5;
+    echo "pinging the network to make sure its working";
+    sleep 5;
+    echo "begin pinging router";
+    mynetwork=0;
+    while [ $mynetwork -ne 1 ]; do
+        ping -c 3 192.168.1.1;
+        if [ $? -eq 0 ]; then
+            echo "ping router success";
+            `say Your internet is back up Forrest`;
+            while ! ping -c 1 google.com; do
+                echo -;
+            done;
+            echo Google responding to ping;
+            mynetwork=1;
+        else
+            echo "fail router ping";
+            `say Try again Forrest Internet is still down`;
+        fi;
+    done;
+    sleep 1
+}

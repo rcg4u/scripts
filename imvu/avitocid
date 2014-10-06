@@ -1,0 +1,12 @@
+avitocid () 
+{ 
+    newname=$1;
+    cid=$(curl -s -q http://secure.imvu.com//catalog/skudb/gateway.php -X POST -d "<?xml version="1.0"?>
+<methodCall>
+<methodName>gateway.getUserIdForAvatarName</methodName>
+<params>
+<param><value><string>$newname</string></value></param>
+</params></methodCall>" | tr "<int>" "\n" | grep -i [0-9] | tail -1);
+    avicid=$(echo $cid);
+    echo $cid
+}

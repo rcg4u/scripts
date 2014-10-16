@@ -1,0 +1,14 @@
+installimvu () 
+{ 
+    imvuver=$1;
+    dlimvu $imvuver;
+    echo "make sure you used lynx to download the DMG file before installing this version";
+    rmset off;
+    rm -rvf /Applications/IMVU.app/;
+    rmset on;
+    echo "Install IMVU manually";
+    hdiutil mount IMVU-$imvuver.dmg;
+    rsync -avzrtW --del --progress /Volumes/IMVU/IMVU.app /Applications/;
+    diskutil unmount /Volumes/IMVU;
+    echo "IMVU $imvuver is installed, restart please"
+}

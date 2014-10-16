@@ -1,0 +1,94 @@
+imvuinstaller () 
+{ 
+    imvuinstalldir="$HOME/imvuinstall";
+    clear;
+    ip=$(/sbin/ifconfig en1 | grep inet | awk '{print $2}' | tail -1);
+    hn=$(uname -n);
+    version=$1;
+    installdir=$2;
+    if [ -f `which wget` ]; then
+        echo "Checking for wget";
+        echo "wget found";
+        which wget;
+        echo "";
+    else
+        echo "please install wget using:
+curl -O http://ftp.gnu.org/gnu/wget/wget-1.14.tar.gz
+tar -zxvf wget-1.14.tar.gz
+cd wget-1.14
+./configure --with-ssl=openssl
+make
+sudo make install";
+        echo "wget will be installed in /usr/local/bin/wget";
+    fi;
+    if [ -f `which rsync` ]; then
+        echo "checking for rsync";
+        echo "rsync found";
+        which rsync;
+        echo "";
+    else
+        echo "
+curl -O http://rsync.samba.org/ftp/rsync/src/rsync-3.1.0.tar.gz
+curl -O http://rsync.samba.org/ftp/rsync/src/rsync-patches-3.1.0.tar.gz
+tar xvzf rsync-3.1.0.tar.gz
+tar xvzf rsync-patches-3.1.0.tar.gz
+cd rsync-3.1.0
+patch -p1 <patches/fileflags.diff
+patch -p1 <patches/crtimes.diff
+patch -p1 <patches/hfs-compression.diff
+./prepare-source
+./configure
+make
+sudo make install";
+        echo "rsync will be in /usr/bin/rsync";
+    fi;
+    echo "sexymacman's IMVU Update script";
+    echo "Welcome to SexyMacMan's Mac client installer, we are going to install $version, if you already have this version ctrl + c now";
+    echo "we are on $hn with the ipaddress $ip if this is the wrong machine hit ctrl + c now otherwise push enter";
+    read -p "is this the right machine";
+    if [ "$REPLY" == "n" ]; then
+        exit;
+    fi;
+    if [ ! -d $HOME/imvuinstall ]; then
+        mkdir -p $HOME/imvuinstall;
+        echo "changing to $HOME/imvuinstall";
+    else
+        echo "directory $HOME/imvuinstall exists";
+        echo "changing to $HOME/imvuinstall";
+        cd $HOME/imvuinstall;
+    fi;
+    macimvudownload="http://static-akm.imvu.com/imvufiles/installers/IMVU-$version.dmg";
+    function download () 
+    { 
+        if [ ! -f $imvuinstalldir/IMVU-$version.dmg ]; then
+            echo "file doesnt exist downloading";
+            wget -c http://static-akm.imvu.com/imvufiles/installers/IMVU-$imvudl.dmg;
+        fi;
+        if [ -f $imvuinstalldir/IMVU-$version.dmg ]; then
+            echo "resuming incomplete IMVU-$version.dmg";
+            echo "$imvuinstalldir/IMVU-$version.dmg resumed";
+            echo "downloading mac version";
+            wget -c http://static-akm.imvu.com/imvufiles/installers/IMVU-$imvudl.dmg;
+        fi
+    };
+    download;
+    rm -rvf /Applications/IMVU.app;
+    echo "removed existing install";
+    echo "installing version $version into folder $installdir";
+    echo "removed current IMVU install";
+    if [ -d /Volumes/IMVU ]; then
+        echo "volume exists unmounting";
+        diskutil unmount /Volumes/IMVU;
+        hdiutil mount IMVU-$version.dmg;
+    else
+        echo "not mounted";
+        hdiutil mount IMVU-$version.dmg;
+    fi;
+    echo "clean install of IMVU - copying IMVU $version to $installdir";
+    source ~/.profile;
+    rsync -avzrtW --del --progress /Volumes/IMVU/IMVU.app $installdir;
+    echo "IMVU $version has now been installed unmounting the drive";
+    diskutil unmount "/Volumes/IMVU";
+    cd ~;
+    echo "moved back to $PWD"
+}

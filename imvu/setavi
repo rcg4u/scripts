@@ -1,0 +1,11 @@
+setavi () 
+{ 
+    avname="$1";
+    avicid=$(avitocid $avname);
+    aviname=$(curl -s -L -b $HOME/avis/cookie http://www.imvu.com/catalog/web_mypage_inter.php?user=$avicid | zgrep title | awk '{print $5}' | sed 's/\<\/title>//g');
+    if [ "$avicid" == "0" ]; then
+        echo "doesnt exist exiting";
+    else
+        echo "Name: $aviname Custid: $avicid";
+    fi
+}

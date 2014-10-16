@@ -1,0 +1,4 @@
+watchimvulog () 
+{ 
+    tail -f ~/Library/Application\ Support/IMVU/IMVULog.log | sed '/auth/d'
+}

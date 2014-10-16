@@ -1,0 +1,6 @@
+roomgen () 
+{ 
+    roomid="$1";
+    echo "http://www.imvu.com/rooms/show-room-details.php?room_instance_id=$roomid";
+    echo "imvu:JoinPublicRoom?room_instance_id=$roomid"
+}

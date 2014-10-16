@@ -1,0 +1,26 @@
+rmset () 
+{ 
+    status=$1;
+    if [ "$status" == "on" ]; then
+        function rm () 
+        { 
+            local path;
+            for path in "$@";
+            do
+                if [[ "$path" = -* ]]; then
+                    :;
+                else
+                    local dst=${path##*/};
+                    while [ -e ~/.Trash/"$dst" ]; do
+                        dst="$dst "$(date +%H-%M-%S);
+                    done;
+                    mv "$path" ~/.Trash/"$dst";
+                fi;
+            done
+        };
+        echo "rm is set to not delete but instead mode to ~/.Trash";
+    else
+        unset rm;
+        echo "rm will remove entirely skipping Trash";
+    fi
+}

@@ -8,4 +8,6 @@ tar -zxvf wget-1.14.tar.gz
 cd wget-1.14
 ./configure --with-ssl=openssl
 make
+sudo make install
+echo "should have wget in /usr/local/bin/wget"
 fi

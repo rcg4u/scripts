@@ -1,0 +1,11 @@
+#!/bin/bash
+if [ -f /usr/local/bin/wget ]; then
+echo "wget exists no action being done"
+which wget
+else
+curl -O http://ftp.gnu.org/gnu/wget/wget-1.14.tar.gz
+tar -zxvf wget-1.14.tar.gz
+cd wget-1.14
+./configure --with-ssl=openssl
+make
+fi

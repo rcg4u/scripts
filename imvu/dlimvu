@@ -1,0 +1,17 @@
+dlimvu () 
+{ 
+    imvudl=$1;
+    if [ -f /usr/local/bin/wget ]; then
+        echo "now downloading IMVU-$imvudl using wget";
+        cd ~/imvuinstall/;
+        wget -c http://static-akm.imvu.com/imvufiles/installers/IMVU-$imvudl.dmg;
+        hdiutil verify IMVU-$imvudl.dmg;
+    else
+        curl -O http://ftp.gnu.org/gnu/wget/wget-1.14.tar.gz;
+        tar -zxvf wget-1.14.tar.gz;
+        cd wget-1.14;
+        ./configure --with-ssl=openssl;
+        make;
+        sudo make install;
+    fi
+}

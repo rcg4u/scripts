@@ -1,0 +1,12 @@
+1.3
+-re-built for OSX 10.6 target, SDK 10.8
+-replace BEncoding library with Glass Echinda BEncoding: https://github.com/aidansteele/GEBEncoding
+-added human readable file size B/KB/MB/GB
+-introduced GRMustache library to handle HTML templating - HTML and CSS are now separated from functional code
+-refactored like crazy (QLTorrent now addresses QuickLook concerns only and Torrent class is abstracted out)
+
+1.2
+-re-built as Universal binary
+
+1.1
+-added support for 64-bit length count

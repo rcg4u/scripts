@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AutomaticallyDecodeAppleDouble</key>
+	<true/>
+	<key>AutomaticallyEjectDiscs</key>
+	<true/>
+	<key>AutomaticallyGrabAppleDouble</key>
+	<true/>
+	<key>BufferSize</key>
+	<integer>20</integer>
+	<key>CalculateFolderSizes</key>
+	<true/>
+	<key>ChecksumVisible</key>
+	<false/>
+	<key>ConfirmBeforeInstalling</key>
+	<true/>
+	<key>ConfirmBeforeReplacing</key>
+	<true/>
+	<key>DateModifiedVisible</key>
+	<true/>
+	<key>DynamicallyUpdateSelectionSize</key>
+	<true/>
+	<key>GroupVisible</key>
+	<true/>
+	<key>IgnoreDSStore</key>
+	<false/>
+	<key>KindVisible</key>
+	<false/>
+	<key>OpeningPackages</key>
+	<integer>1</integer>
+	<key>OwnerVisible</key>
+	<true/>
+	<key>PermissionsVisible</key>
+	<true/>
+	<key>ReplacingAppBundles</key>
+	<integer>2</integer>
+	<key>ShowFilesAfterExtracting</key>
+	<true/>
+	<key>ShowQuickStartGuide</key>
+	<true/>
+	<key>SizeVisible</key>
+	<true/>
+	<key>SubExtensionsInKextReport</key>
+	<true/>
+	<key>VerifyAfterExtracting</key>
+	<true/>
+	<key>VerifyChecksum</key>
+	<true/>
+	<key>VerifyPermissions</key>
+	<true/>
+	<key>VersionVisible</key>
+	<true/>
+	<key>UseCaseSensitiveSearch</key>
+	<false/>
+	<key>AskToInstallQuickLookPlugin</key>
+	<true/>
+	<key>CheckOpenWithSettings</key>
+	<true/>
+</dict>
+</plist>

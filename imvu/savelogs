@@ -1,0 +1,17 @@
+savelogs () 
+{ 
+    now=$(date | sed 's/ /./g');
+    whoisin=$(for i in $(checkavis 1); do echo $i | tr "\n" "_"; done);
+    echo "saving imvulogs as of `date`";
+    cd "/Users/rcg/Library/Application Support/IMVU/";
+    if [ ! -d sexymacmanlogs/ ]; then
+        mkdir sexymacmanlogs;
+    else
+        echo "sexymacmanlogs directory exists";
+    fi;
+    cp -v IMVULog* sexymacmanlogs/;
+    zip -r logsaved.$now.$whoisin.zip sexymacmanlogs/;
+    mv -v logsaved.* /Volumes/BACKUP/imvulogs/;
+    echo "log is saved";
+    cd -
+}

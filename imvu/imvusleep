@@ -1,0 +1,28 @@
+imvusleep () 
+{ 
+    sleepavi="imvu:PutOn?productId=9426089";
+    sleepz="imvu:PutOn?productId=8146983";
+    sleep="$1";
+    if [ "$sleep" == "yes" ]; then
+        open $sleepavi;
+        open $sleepz;
+    else
+        if [ "$sleep" == "no" ]; then
+            echo "$sleepavi" | sed 's/PutOn/TakeOff/g' | xargs open;
+            echo "$sleepz" | sed 's/PutOn/TakeOff/g' | xargs open;
+        else
+            if [ "$sleep" == "on" ]; then
+                sleeptime=`sleepwatcher -t 100 -i "source ~/.profile; imvusleep yes" -R "source ~/.profile; imvusleep no" -w ~/.wake -s ~/.sleep`;
+                echo "$sleeptime";
+                $sleeptime;
+            else
+                if [ "$sleep" == "off" ]; then
+                    killall sleepwatcher;
+                    killall sleepwatch;
+                    killall sleepwatcher;
+                    imvusleep no;
+                fi;
+            fi;
+        fi;
+    fi
+}

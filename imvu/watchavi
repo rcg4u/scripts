@@ -1,0 +1,4 @@
+watchavi () 
+{ 
+    tail -f "$imvulog" | grep -i "avatarcard.php?cid="
+}

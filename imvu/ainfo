@@ -1,0 +1,105 @@
+ainfo () 
+{ 
+    myaviname=$1;
+    type=$2;
+    myavicid=$(avitocid $myaviname | awk '{print $1}');
+    myaviname=$(curl -s -L -b $HOME/avis/cookie http://www.imvu.com/catalog/web_mypage_inter.php?user=$myavicid | zgrep title | awk '{print $5}' | sed 's/\<\/title>//g');
+    echo "aviname is $myaviname and the cid is $myavicid";
+    imvuopt=("hp" "avicard" "rooms" "namechange" "block" "pulse" "boot" "coop" "dev" "pic" "add" "gallery" "roomsearch" "popup" "avipage" "clone" "message" "givecredits");
+    select action in "${imvuopt[@]}";
+    do
+        case $action in 
+            "hp")
+                echo "Homepage: http://www.imvu.com/catalog/web_mypage.php?user=$myavicid";
+                open "http://imvu-customer-sandbox.com/$myaviname";
+                echo "frameless page for full source: http://imvu-customer-sandbox.com/$myaviname";
+                break
+            ;;
+            "avicard")
+                echo "avatarcard: http://client-dynamic.imvu.com/api/avatarcard.php?cid=$myavicid";
+                echo "http://client-dynamic.imvu.com/api/avatarcard.php?cid=$myavicid";
+                open "http://www.imvu-e.com/services/acv/index.php?name=$myavicid";
+                break
+            ;;
+            "rooms")
+                echo "room: http://www.imvu.com/rooms/?search_terms=$myaviname";
+                open "http://www.imvu.com/rooms/?search_terms=$myaviname";
+                break
+            ;;
+            "namechange")
+                echo "name change history: http://avatars.imvu.com/catalog/web_view_name_change_history.php?customer_id=$myavicid";
+                open "http://avatars.imvu.com/catalog/web_view_name_change_history.php?customer_id=$myavicid";
+                break
+            ;;
+            "message")
+                echo "http://www.imvu.com/catalog/web_send_message_widget.php?recipient_id=$myavicid";
+                open "http://www.imvu.com/catalog/web_send_message_widget.php?recipient_id=$myavicid";
+                break
+            ;;
+            "add")
+                echo "adding $myaviname using http://www.imvu.com/catalog/web_add_contact.php?contact=$myaviname";
+                open "http://www.imvu.com/catalog/web_add_contact.php?contact=$myaviname";
+                break
+            ;;
+            "block")
+                echo "block this person: http://www.imvu.com/catalog/web_mypage.php?block=$myavicid";
+                open http://www.imvu.com/catalog/web_mypage.php?block=$myavicid;
+                break
+            ;;
+            "pulse")
+                echo "Pulse: http://www.imvu.com/catalog/web_index.php/pulse#pulse=/user/$myavicid";
+                open http://www.imvu.com/catalog/web_index.php/pulse#pulse=/user/$myavicid;
+                break
+            ;;
+            "boot")
+                echo "boot them: *boot 68629676 $myavicid";
+                break
+            ;;
+            "coop")
+                echo "cooperative commands: *msg TwoPartyAction:/action 2 68629676 2 $myavicid";
+                break
+            ;;
+            "givecredits")
+                echo "http://www.imvu.com/catalog/web_give_av.php?payee=$myaviname";
+                open "http://www.imvu.com/catalog/web_give_av.php?payee=$myaviname";
+                break
+            ;;
+            "clone")
+                echo "generating $myaviname in the imvu shop";
+                makeavi $myaviname c - - "ainfo clone gen";
+                break
+            ;;
+            "dev")
+                echo "dev catalog: http://www.imvu.com/shop/web_search.php?manufacturers_id=$myavicid";
+                open http://www.imvu.com/shop/web_search.php?manufacturers_id=$myavicid;
+                break
+            ;;
+            "pic")
+                echo "avi pic: http://www.imvu.com/catalog/web_av_pic.php?u=$myavicid";
+                getimvupic $myaviname;
+                echo ~/imvupropics/$myaviname.png;
+                break
+            ;;
+            "gallery")
+                echo "gallery url: http://www.imvu.com/photos/albums/$myavicid";
+                open http://www.imvu.com/photos/albums/$myavicid;
+                break
+            ;;
+            "roomsearch")
+                echo "http://www.imvu.com/rooms/?search_terms=$myaviname";
+                open http://www.imvu.com/rooms/?search_terms=$myaviname;
+                break
+            ;;
+            "popup")
+                echo "javascript:IMVU.messagePopupShow({force_recipient_id:$myavicid})";
+                break
+            ;;
+            "avipage")
+                echo "~/imvu/$myaviname-$myavicid.html";
+                makeavi $myaviname - - avi;
+                open ~/imvu/$myaviname-$myavicid.html;
+                break
+            ;;
+        esac;
+    done
+}

@@ -1,0 +1,35 @@
+#/bin/bash
+
+# change the mac
+
+wan1="eth1.2"
+wan2="eth1"
+
+/sbin/ifconfig $wan1 down
+/sbin/ifconfig $wan2 down
+
+echo "Both Interfaces down"
+echo "Generating a new mac address"
+#macadd=$(openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/:$//')
+macadd="$1"
+
+newmac=$(echo "$macadd")
+sleep 2
+/sbin/ifconfig $wan1 hw ether $(echo "$newmac")
+/sbin/ifconfig $wan2 hw ether $(echo "$newmac")
+
+echo "Both interfaces back up with updated mac address $macadd"
+
+/sbin/uci set network.wan6.macaddr="$(echo "$newmac")"
+/sbin/uci set network.wan.macaddr="$(echo "$newmac")"
+/sbin/uci commit
+
+pause
+/sbin/ifconfig $wan1 up
+/sbin/ifconfig $wan2 up
+
+echo "Mac address set to $newmac restart your cable modem"
+
+echo "Settings verified"
+/sbin/uci get network.wan6.macaddr
+/sbin/uci get network.wan.macaddr

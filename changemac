@@ -24,7 +24,7 @@ echo "Both interfaces back up with updated mac address $macadd"
 /sbin/uci set network.wan.macaddr="$(echo "$newmac")"
 /sbin/uci commit
 
-pause
+sleep 5
 /sbin/ifconfig $wan1 up
 /sbin/ifconfig $wan2 up
 
